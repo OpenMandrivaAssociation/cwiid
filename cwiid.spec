@@ -15,7 +15,7 @@ License: GPL
 Group: System/Kernel and hardware
 Url: http://www.wiili.org/index.php/CWiid
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: bluez-devel gtk+2-devel
+BuildRequires: bluez-devel flex gtk+2-devel
 
 %description
 CWiid is a Wiimote Interface.
