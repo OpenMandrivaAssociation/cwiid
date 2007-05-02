@@ -1,5 +1,5 @@
 %define name cwiid
-%define version 0.5.02
+%define version 0.5.03
 %define release %mkrel 1
 %define lib_major 0
 %define lib_name %mklibname wiimote %{lib_major}
@@ -10,7 +10,6 @@ Name: %{name}
 Version: %{version}
 Release: %{release}
 Source0: http://www.abstrakraft.org/%{name}-%{version}.tar.bz2
-Patch0: cwiid-0.5.02-wmdemo.patch
 License: GPL
 Group: System/Kernel and hardware
 Url: http://www.wiili.org/index.php/CWiid
@@ -45,33 +44,29 @@ developing programs using the Wiimote library.
 
 %prep
 %setup -q
-%patch0 -p1 -b .wmdemo
 
 %build
-%configure2_5x --disable-ldconfig
+%configure2_5x --disable-ldconfig --docdir=%{_docdir}/%{name}-%{version}
 %make
 
 %install
 rm -rf %{buildroot}
-install -d %{buildroot}%{_bindir}
-%makeinstall \
- INC_INST_DIR=%{buildroot}%{_includedir} \
- LIB_INST_DIR=%{buildroot}%{_libdir} \
- INST_DIR=%{buildroot}%{_bindir}
-mv %{buildroot}%{_bindir}/*.so %{buildroot}%{plugins_dir}
+%makeinstall_std
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc README doc/Xmodmap doc/wminput.list
+%doc README
+%docdir %{_docdir}/%{name}-%{version}
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/%{name}/wminput
 %config(noreplace) %{_sysconfdir}/%{name}/wminput/*
-%{_bindir}/wmdemo
+%{_bindir}/lswm
 %{_bindir}/wmgui
 %{_bindir}/wminput
+%{_mandir}/man1/*.1*
 
 %files -n %{lib_name}
 %{_libdir}/libwiimote.so.*
