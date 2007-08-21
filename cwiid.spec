@@ -1,4 +1,5 @@
 %define name cwiid
+%define oname CWiid
 %define version 0.6.00
 %define pre rc3
 %define rel 1
@@ -13,7 +14,7 @@
 %define lib_name %mklibname wiimote %{lib_major}
 %define plugins_dir %{_libdir}/%{name}/plugins
 
-Summary: CWiid Wiimote Interface
+Summary: %{oname} Wiimote Interface
 Name: %{name}
 Version: %{version}
 Release: %{release}
@@ -25,37 +26,38 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: bison bluez-devel flex gtk+2-devel
 
 %description
-CWiid is a Wiimote Interface.
-The cwwid package contains the following parts:
-1.wiimote library - abstracts the interface to the wiimote by hiding
+%{oname} is a Wiimote Interface.
+The %{name} package contains the following parts:
+1.%{name} library - abstracts the interface to the wiimote by hiding
   the details of the underlying Bluetooth connection
 2.wmif - provides a simple text-based interface to the wiimote.
 3.wmgui - provides a simple GTK gui to the wiimote.
 
 %package -n	%{lib_name}
-Summary:	A Wiimote library
+Summary:	%{oname} Wiimote library
 Group:		System/Libraries
 
 %description -n	%{lib_name}
 This package contains the library needed to run programs dynamically
-linked with the Wiimote library.
+linked with the %{oname} Wiimote library.
 
 %package -n	%{lib_name}-devel
-Summary:	Development headers and libraries for programs using the Wiimote
+Summary:	Development headers and libraries for %{oname}
 Group:		Development/C
 Requires:	%{lib_name} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n	%{lib_name}-devel
 This package contains the header files and libraries needed for
-developing programs using the Wiimote library.
+developing programs using the %{oname} Wiimote library.
 
 %package -n	python-%{name}
-Summary: 	Python bindings for the %{name} library
+Summary: 	Python bindings for the %{name} Wiimote library
 Group:		System/Libraries
 
 %description -n	python-%{name}
-This package contains Python bindings for the %{name} library.
+This package contains Python bindings for the %{oname} Wiimote
+library.
 
 %prep
 %setup -q -n %{distname}
