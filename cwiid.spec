@@ -23,7 +23,7 @@ License: GPL
 Group: System/Kernel and hardware
 Url: http://abstrakraft.org/cwiid/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: bison bluez-devel flex gtk+2-devel
+BuildRequires: bison bluez-devel flex gtk+2-devel python-devel
 
 %description
 %{oname} is a Wiimote Interface.
