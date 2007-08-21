@@ -1,6 +1,14 @@
 %define name cwiid
-%define version 0.5.03
-%define release %mkrel 1
+%define version 0.6.00
+%define pre rc3
+%define rel 1
+%if %pre
+%define release %mkrel 0.%{pre}.%{rel}
+%define distname %{name}-%{version}_%{pre}
+%else
+%define release %mkrel %{rel}
+%define distname %{name}-%{version}
+%endif
 %define lib_major 0
 %define lib_name %mklibname wiimote %{lib_major}
 %define plugins_dir %{_libdir}/%{name}/plugins
@@ -9,7 +17,7 @@ Summary: CWiid Wiimote Interface
 Name: %{name}
 Version: %{version}
 Release: %{release}
-Source0: http://www.abstrakraft.org/%{name}-%{version}.tar.bz2
+Source0: http://www.abstrakraft.org/%{distname}.tar.bz2
 License: GPL
 Group: System/Kernel and hardware
 Url: http://www.wiili.org/index.php/CWiid
@@ -43,7 +51,7 @@ This package contains the header files and libraries needed for
 developing programs using the Wiimote library.
 
 %prep
-%setup -q
+%setup -q -n %{distname}
 
 %build
 %configure2_5x --disable-ldconfig --docdir=%{_docdir}/%{name}-%{version}
