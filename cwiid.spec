@@ -54,7 +54,7 @@ developing programs using the Wiimote library.
 %setup -q -n %{distname}
 
 %build
-%configure2_5x --disable-ldconfig --docdir=%{_docdir}/%{name}-%{version}
+%configure2_5x --disable-ldconfig --docdir=%{_docdir}/%{name}
 %make
 
 %install
@@ -67,7 +67,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc README
-%docdir %{_docdir}/%{name}-%{version}
+%docdir %{_docdir}/%{name}
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/%{name}/wminput
 %config(noreplace) %{_sysconfdir}/%{name}/wminput/*
