@@ -77,7 +77,7 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*.1*
 
 %files -n %{lib_name}
-%{_libdir}/lib%{name}.so.*
+%{_libdir}/lib%{name}.so.%{lib_major}*
 %{plugins_dir}/*.so
 
 %files -n %{lib_name}-devel
