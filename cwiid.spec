@@ -9,7 +9,7 @@
 %define release %mkrel %{rel}
 %define distname %{name}-%{version}
 %endif
-%define lib_major 0
+%define lib_major 1
 %define lib_name %mklibname wiimote %{lib_major}
 %define plugins_dir %{_libdir}/%{name}/plugins
 
