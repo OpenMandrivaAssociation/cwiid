@@ -21,7 +21,7 @@ Release: %{release}
 Source0: http://www.abstrakraft.org/%{distname}.tar.bz2
 License: GPL
 Group: System/Kernel and hardware
-Url: http://www.wiili.org/index.php/CWiid
+Url: http://abstrakraft.org/cwiid/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: bison bluez-devel flex gtk+2-devel
 
