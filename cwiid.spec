@@ -50,6 +50,13 @@ Provides:	%{name}-devel = %{version}-%{release}
 This package contains the header files and libraries needed for
 developing programs using the Wiimote library.
 
+%package -n	python-%{name}
+Summary: 	Python bindings for the %{name} library
+Group:		System/Libraries
+
+%description -n	python-%{name}
+This package contains Python bindings for the %{name} library.
+
 %prep
 %setup -q -n %{distname}
 
@@ -84,3 +91,7 @@ rm -rf %{buildroot}
 %{_includedir}/%{name}.h
 %{_libdir}/lib%{name}.a
 %{_libdir}/lib%{name}.so
+
+%files -n python-%{name}
+%{py_platsitedir}/%{name}.so
+%{py_platsitedir}/*.egg-info
