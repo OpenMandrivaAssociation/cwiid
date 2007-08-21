@@ -77,10 +77,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*.1*
 
 %files -n %{lib_name}
-%{_libdir}/libwiimote.so.*
+%{_libdir}/lib%{name}.so.*
 %{plugins_dir}/*.so
 
 %files -n %{lib_name}-devel
-%{_includedir}/wiimote.h
-%{_libdir}/libwiimote.a
-%{_libdir}/libwiimote.so
+%{_includedir}/%{name}.h
+%{_libdir}/lib%{name}.a
+%{_libdir}/lib%{name}.so
