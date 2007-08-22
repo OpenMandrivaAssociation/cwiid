@@ -11,7 +11,7 @@
 %define distname %{name}-%{version}
 %endif
 %define lib_major 1
-%define lib_name %mklibname wiimote %{lib_major}
+%define lib_name %mklibname %{name} %{lib_major}
 %define plugins_dir %{_libdir}/%{name}/plugins
 
 Summary: %{oname} Wiimote Interface
@@ -38,6 +38,7 @@ The %{name} package contains the following parts:
 Summary:	%{oname} Wiimote library
 Group:		System/Libraries
 Conflicts:	%mklibname wiimote 0
+Obsoletes:	%mklibname wiimote 1
 
 %description -n	%{lib_name}
 This package contains the library needed to run programs dynamically
