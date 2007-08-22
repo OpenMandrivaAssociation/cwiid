@@ -2,7 +2,7 @@
 %define oname CWiid
 %define version 0.6.00
 %define pre rc3
-%define rel 1
+%define rel 2
 %if %pre
 %define release %mkrel 0.%{pre}.%{rel}
 %define distname %{name}-%{version}_%{pre}
@@ -36,6 +36,7 @@ The %{name} package contains the following parts:
 %package -n	%{lib_name}
 Summary:	%{oname} Wiimote library
 Group:		System/Libraries
+Conflicts:	%mklibname wiimote 0
 
 %description -n	%{lib_name}
 This package contains the library needed to run programs dynamically
