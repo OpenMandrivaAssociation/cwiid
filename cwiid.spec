@@ -2,7 +2,7 @@
 %define oname CWiid
 %define version 0.6.00
 %define pre rc3
-%define rel 2
+%define rel 3
 %if %pre
 %define release %mkrel 0.%{pre}.%{rel}
 %define distname %{name}-%{version}_%{pre}
@@ -12,6 +12,7 @@
 %endif
 %define lib_major 1
 %define lib_name %mklibname %{name} %{lib_major}
+%define devel_name %mklibname %{name} -d
 %define plugins_dir %{_libdir}/%{name}/plugins
 
 Summary: %{oname} Wiimote Interface
@@ -44,13 +45,14 @@ Obsoletes:	%mklibname wiimote 1
 This package contains the library needed to run programs dynamically
 linked with the %{oname} Wiimote library.
 
-%package -n	%{lib_name}-devel
+%package -n	%{devel_name}
 Summary:	Development headers and libraries for %{oname}
 Group:		Development/C
 Requires:	%{lib_name} = %{version}
 Provides:	%{name}-devel = %{version}-%{release}
+Obsoletes:	%mklibname wiimote 1 -d
 
-%description -n	%{lib_name}-devel
+%description -n	%{devel_name}
 This package contains the header files and libraries needed for
 developing programs using the %{oname} Wiimote library.
 
@@ -92,7 +94,7 @@ rm -rf %{buildroot}
 %{_libdir}/lib%{name}.so.%{lib_major}*
 %{plugins_dir}/*.so
 
-%files -n %{lib_name}-devel
+%files -n %{devel_name}
 %{_includedir}/%{name}.h
 %{_libdir}/lib%{name}.a
 %{_libdir}/lib%{name}.so
