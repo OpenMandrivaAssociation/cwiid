@@ -1,8 +1,8 @@
 %define name cwiid
 %define oname CWiid
 %define version 0.6.00
-%define pre rc3
-%define rel 3
+%define pre 0
+%define rel 1
 %if %pre
 %define release %mkrel 0.%{pre}.%{rel}
 %define distname %{name}-%{version}_%{pre}
@@ -15,17 +15,17 @@
 %define devel_name %mklibname %{name} -d
 %define plugins_dir %{_libdir}/%{name}/plugins
 
-Summary: %{oname} Wiimote Interface
-Name: %{name}
-Version: %{version}
-Release: %{release}
-Source0: http://www.abstrakraft.org/%{distname}.tar.bz2
-License: GPL
-Group: System/Kernel and hardware
-Url: http://abstrakraft.org/cwiid/
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: bison bluez-devel flex gtk+2-devel python-devel
-Requires: python-%{name}
+Summary:	%{oname} Wiimote Interface
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
+Source0:	http://www.abstrakraft.org/%{distname}.tar.lzma
+License:	GPL
+Group:		System/Kernel and hardware
+Url:		http://abstrakraft.org/cwiid/
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRequires:	bison bluez-devel flex gtk+2-devel python-devel
+Requires:	python-%{name}
 
 %description
 %{oname} is a Wiimote Interface.
