@@ -2,7 +2,7 @@
 %define oname CWiid
 %define version 0.6.00
 %define pre 0
-%define rel 1
+%define rel 2
 %if %pre
 %define release %mkrel 0.%{pre}.%{rel}
 %define distname %{name}-%{version}_%{pre}
@@ -76,6 +76,9 @@ rm -rf %{buildroot}
 
 %clean
 rm -rf %{buildroot}
+
+%post -n %{lib_name} -p /sbin/ldconfig
+%postun -n %{lib_name} -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root)
