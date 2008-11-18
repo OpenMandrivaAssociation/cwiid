@@ -23,6 +23,7 @@ Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 Source0:	http://www.abstrakraft.org/%{distname}.tar.lzma
+Patch0:		cwiid-0.6.00-bluetooth_api_fix.diff
 License:	GPL
 Group:		System/Kernel and hardware
 Url:		http://abstrakraft.org/cwiid/
@@ -70,6 +71,7 @@ library.
 %prep
 
 %setup -q -n %{distname}
+%patch0 -p0
 
 %build
 %configure2_5x \
