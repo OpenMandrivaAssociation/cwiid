@@ -1,8 +1,11 @@
+%define _disable_ld_as_needed 1
+%define _disable_ld_no_undefined 1
+
 %define name cwiid
 %define oname CWiid
 %define version 0.6.00
 %define pre 0
-%define rel 2
+%define rel 3
 %if %pre
 %define release %mkrel 0.%{pre}.%{rel}
 %define distname %{name}-%{version}_%{pre}
@@ -23,9 +26,9 @@ Source0:	http://www.abstrakraft.org/%{distname}.tar.lzma
 License:	GPL
 Group:		System/Kernel and hardware
 Url:		http://abstrakraft.org/cwiid/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	bison bluez-devel flex gtk+2-devel python-devel
 Requires:	python-%{name}
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 %{oname} is a Wiimote Interface.
@@ -65,25 +68,31 @@ This package contains Python bindings for the %{oname} Wiimote
 library.
 
 %prep
+
 %setup -q -n %{distname}
 
 %build
-%configure2_5x --disable-ldconfig --docdir=%{_docdir}/%{name}
-%make
+%configure2_5x \
+    --disable-ldconfig \
+    --docdir=%{_docdir}/%{name}
+
+%make WARNFLAGS="%{optflags} -Wall"
 
 %install
 rm -rf %{buildroot}
-%makeinstall_std
 
-%clean
-rm -rf %{buildroot}
+%makeinstall_std
 
 %if %mdkversion < 200900
 %post -n %{lib_name} -p /sbin/ldconfig
 %endif
+
 %if %mdkversion < 200900
 %postun -n %{lib_name} -p /sbin/ldconfig
 %endif
+
+%clean
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
