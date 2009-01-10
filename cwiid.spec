@@ -1,4 +1,3 @@
-%define _disable_ld_as_needed 1
 %define _disable_ld_no_undefined 1
 
 %define name cwiid
@@ -24,6 +23,8 @@ Version:	%{version}
 Release:	%{release}
 Source0:	http://www.abstrakraft.org/%{distname}.tar.lzma
 Patch0:		cwiid-0.6.00-bluetooth_api_fix.diff
+Patch1:		cwiid-0.6.00-fix-str-fmt.patch
+Patch2:		cwiid-0.6.00-fix-linkage.patch
 License:	GPL
 Group:		System/Kernel and hardware
 Url:		http://abstrakraft.org/cwiid/
@@ -69,9 +70,10 @@ This package contains Python bindings for the %{oname} Wiimote
 library.
 
 %prep
-
 %setup -q -n %{distname}
 %patch0 -p0
+%patch1 -p0
+%patch2 -p0
 
 %build
 %configure2_5x \
