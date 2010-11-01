@@ -4,7 +4,7 @@
 %define oname CWiid
 %define version 0.6.00
 %define pre 0
-%define rel 5
+%define rel 6
 %if %pre
 %define release %mkrel 0.%{pre}.%{rel}
 %define distname %{name}-%{version}_%{pre}
