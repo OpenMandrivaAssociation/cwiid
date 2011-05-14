@@ -1,17 +1,7 @@
-%define _disable_ld_no_undefined 1
-
 %define name cwiid
 %define oname CWiid
 %define version 0.6.00
-%define pre 0
-%define rel 6
-%if %pre
-%define release %mkrel 0.%{pre}.%{rel}
-%define distname %{name}-%{version}_%{pre}
-%else
-%define release %mkrel %{rel}
-%define distname %{name}-%{version}
-%endif
+%define rel 7
 %define lib_major 1
 %define lib_name %mklibname %{name} %{lib_major}
 %define devel_name %mklibname %{name} -d
@@ -20,8 +10,8 @@
 Summary:	%{oname} Wiimote Interface
 Name:		%{name}
 Version:	%{version}
-Release:	%{release}
-Source0:	http://www.abstrakraft.org/%{distname}.tar.lzma
+Release:	%mkrel %rel
+Source0:	http://abstrakraft.org/cwiid/downloads/cwiid-%{version}.tgz
 Patch0:		cwiid-0.6.00-bluetooth_api_fix.diff
 Patch1:		cwiid-0.6.00-fix-str-fmt.patch
 Patch2:		cwiid-0.6.00-fix-linkage.patch
@@ -70,12 +60,13 @@ This package contains Python bindings for the %{oname} Wiimote
 library.
 
 %prep
-%setup -q -n %{distname}
+%setup -q
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
 
 %build
+%define _disable_ld_no_undefined 1
 %configure2_5x \
     --disable-ldconfig \
     --docdir=%{_docdir}/%{name}
