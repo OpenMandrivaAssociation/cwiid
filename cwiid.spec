@@ -1,7 +1,17 @@
+%define _disable_ld_no_undefined 1
+
 %define name cwiid
 %define oname CWiid
-%define version 0.6.00
-%define rel 7
+%define version 0.6.01
+%define pre 0
+%define rel 1
+%if %pre
+%define release %mkrel 0.%{pre}.%{rel}
+%define distname %{name}-%{version}_%{pre}
+%else
+%define release %mkrel %{rel}
+%define distname %{name}-%{version}
+%endif
 %define lib_major 1
 %define lib_name %mklibname %{name} %{lib_major}
 %define devel_name %mklibname %{name} -d
@@ -10,8 +20,8 @@
 Summary:	%{oname} Wiimote Interface
 Name:		%{name}
 Version:	%{version}
-Release:	%mkrel %rel
-Source0:	http://abstrakraft.org/cwiid/downloads/cwiid-%{version}.tgz
+Release:	%{release}
+Source0:	http://www.abstrakraft.org/%{distname}.tar.xz
 Patch0:		cwiid-0.6.00-bluetooth_api_fix.diff
 Patch1:		cwiid-0.6.00-fix-str-fmt.patch
 Patch2:		cwiid-0.6.00-fix-linkage.patch
@@ -60,13 +70,13 @@ This package contains Python bindings for the %{oname} Wiimote
 library.
 
 %prep
-%setup -q
-%patch0 -p0
+%setup -q -n %{distname}
+# %patch0 -p0
 %patch1 -p0
-%patch2 -p0
+# %patch2 -p0
 
 %build
-%define _disable_ld_no_undefined 1
+autoreconf
 %configure2_5x \
     --disable-ldconfig \
     --docdir=%{_docdir}/%{name}
@@ -100,6 +110,7 @@ rm -rf %{buildroot}
 %{_bindir}/wmgui
 %{_bindir}/wminput
 %{_mandir}/man1/*.1*
+%{_libdir}/pkgconfig/cwiid.pc
 
 %files -n %{lib_name}
 %{_libdir}/lib%{name}.so.%{lib_major}*
@@ -113,3 +124,110 @@ rm -rf %{buildroot}
 %files -n python-%{name}
 %{py_platsitedir}/%{name}.so
 %{py_platsitedir}/*.egg-info
+
+
+%changelog
+* Mon Nov 01 2010 Jani Välimaa <wally@mandriva.org> 0.6.00-6mdv2011.0
++ Revision: 591708
+- rebuild for python 2.7
+
+* Thu Sep 10 2009 Thierry Vignaud <tv@mandriva.org> 0.6.00-5mdv2010.0
++ Revision: 437206
+- rebuild
+
+* Sat Jan 10 2009 Funda Wang <fwang@mandriva.org> 0.6.00-4mdv2009.1
++ Revision: 328003
+- fix linkage & str fmt
+
+* Tue Nov 18 2008 Oden Eriksson <oeriksson@mandriva.com> 0.6.00-3mdv2009.1
++ Revision: 304234
+- fix build
+- use _disable_ld_as_needed and _disable_ld_no_undefined due to
+  fugly autofoo
+- fix build cflags
+
+  + Pixel <pixel@mandriva.com>
+    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+* Fri Dec 21 2007 Olivier Blin <oblin@mandriva.com> 0.6.00-2mdv2008.1
++ Revision: 136524
+- run ldconfig on post
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Mon Aug 27 2007 Per Øyvind Karlsen <peroyvind@mandriva.org> 0.6.00-1mdv2008.0
++ Revision: 71794
+- new release: 0.6.00 final
+- since tarball already being recompressed, use lzma for most optimal
+
+* Wed Aug 22 2007 Olivier Blin <oblin@mandriva.com> 0.6.00-0.rc3.3mdv2008.0
++ Revision: 69107
+- use new devel library policy
+- use cwiid instead of wiimote in library package name
+- wminput require python module (#32747)
+
+* Wed Aug 22 2007 Olivier Blin <oblin@mandriva.com> 0.6.00-0.rc3.2mdv2008.0
++ Revision: 68788
+- conflict with old wiimote library package
+
+* Tue Aug 21 2007 Olivier Blin <oblin@mandriva.com> 0.6.00-0.rc3.1mdv2008.0
++ Revision: 68226
+- update URL
+- adapt summary and descriptions to new library name
+- add python sub-package
+- ensure major is correct in file list
+- major is now 1
+- library is now named cwiid
+- new docdir policy
+- 0.6.00_rc3
+
+* Wed May 02 2007 Olivier Blin <oblin@mandriva.com> 0.5.03-1mdv2008.0
++ Revision: 20505
+- 0.5.03
+- add lswm
+- add man pages
+- do not package wmdemo
+- remove packaging hacks now that upstream has DESTDIR support
+
+* Fri Apr 20 2007 Olivier Blin <oblin@mandriva.com> 0.5.02-1mdv2008.0
++ Revision: 15603
+- buildrequire bison
+- buildrequire flex
+- 0.5.02
+
+
+* Sat Jan 27 2007 Olivier Blin <oblin@mandriva.com> 0.4.01-1mdv2007.0
++ Revision: 114311
+- 0.4.01
+
+* Thu Jan 18 2007 Olivier Blin <oblin@mandriva.com> 0.3.51-1mdv2007.1
++ Revision: 110452
+- 0.3.51
+
+* Wed Jan 10 2007 Olivier Blin <oblin@mandriva.com> 0.3.01-1mdv2007.1
++ Revision: 107202
+- 0.3.01
+
+* Fri Jan 05 2007 Olivier Blin <oblin@mandriva.com> 0.3.00-2mdv2007.1
++ Revision: 104344
+- package wminput
+
+* Fri Jan 05 2007 Olivier Blin <oblin@mandriva.com> 0.3.00-1mdv2007.1
++ Revision: 104334
+- 0.3.00 (IR support)
+
+* Tue Jan 02 2007 Olivier Blin <oblin@mandriva.com> 0.2.00-1mdv2007.1
++ Revision: 103087
+- 0.2.00
+
+* Fri Dec 29 2006 Olivier Blin <oblin@mandriva.com> 0.1.00-1mdv2007.1
++ Revision: 102632
+- buildrequires gtk+2-devel
+- fix library symlinks so that wmgui is linked with libwiimote
+- initial cwiid Wiimote interface package
+- Create cwiid
+
