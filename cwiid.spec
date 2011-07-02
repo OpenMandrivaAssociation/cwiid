@@ -4,7 +4,8 @@
 %define oname CWiid
 %define version 0.6.01
 %define pre 0
-%define rel 1
+%define rel 2
+
 %if %pre
 %define release %mkrel 0.%{pre}.%{rel}
 %define distname %{name}-%{version}_%{pre}
@@ -12,9 +13,11 @@
 %define release %mkrel %{rel}
 %define distname %{name}-%{version}
 %endif
+
 %define lib_major 1
 %define lib_name %mklibname %{name} %{lib_major}
 %define devel_name %mklibname %{name} -d
+
 %define plugins_dir %{_libdir}/%{name}/plugins
 
 Summary:	%{oname} Wiimote Interface
@@ -110,7 +113,6 @@ rm -rf %{buildroot}
 %{_bindir}/wmgui
 %{_bindir}/wminput
 %{_mandir}/man1/*.1*
-%{_libdir}/pkgconfig/cwiid.pc
 
 %files -n %{lib_name}
 %{_libdir}/lib%{name}.so.%{lib_major}*
@@ -120,6 +122,7 @@ rm -rf %{buildroot}
 %{_includedir}/%{name}.h
 %{_libdir}/lib%{name}.a
 %{_libdir}/lib%{name}.so
+%{_libdir}/pkgconfig/cwiid.pc
 
 %files -n python-%{name}
 %{py_platsitedir}/%{name}.so
