@@ -1,0 +1,11 @@
+--- wmgui/main.c.str	2009-01-10 16:42:00.000000000 +0100
++++ wmgui/main.c	2009-01-10 16:42:11.000000000 +0100
+@@ -451,7 +451,7 @@
+ {
+ 	GtkWidget *dialog;
+ 
+-	dialog = gtk_message_dialog_new(parent, 0, type, GTK_BUTTONS_OK, message);
++	dialog = gtk_message_dialog_new(parent, 0, type, GTK_BUTTONS_OK, "%s", message);
+ 	gtk_dialog_run(GTK_DIALOG(dialog));
+ 	gtk_widget_destroy(dialog);
+ }
