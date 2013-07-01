@@ -6,7 +6,7 @@
 
 %define plugins_dir %{_libdir}/%{name}/plugins
 
-Summary:	CWiid Wiimote Interface
+Summary:	Wiimote Interface
 Name:		cwiid
 Version:	0.6.01
 Release:	3
@@ -32,7 +32,7 @@ The %{name} package contains the following parts:
 3.wmgui - provides a simple GTK gui to the wiimote.
 
 %package -n	%{lib_name}
-Summary:	CWiid Wiimote library
+Summary:	Wiimote library
 Group:		System/Libraries
 
 %description -n	%{lib_name}
