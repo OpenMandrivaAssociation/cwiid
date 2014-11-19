@@ -64,7 +64,7 @@ library.
 
 %build
 autoreconf
-%configure2_5x \
+%configure \
     --disable-ldconfig \
     --docdir=%{_docdir}/%{name}
 
