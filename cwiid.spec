@@ -20,7 +20,7 @@ BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	pkgconfig(bluez)
 BuildRequires:	pkgconfig(gtk+-2.0)
-BuildRequires:	python-devel
+BuildRequires:	pkgconfig(python2)
 Requires:	python-%{name}
 
 %description
@@ -65,8 +65,9 @@ autoreconf
 
 %build
 %configure \
-    --disable-ldconfig \
-    --docdir=%{_docdir}/%{name}
+	 PYTHON=python2 \
+	--disable-ldconfig \
+	--docdir=%{_docdir}/%{name}
 
 %make WARNFLAGS="%{optflags} -Wall"
 
@@ -95,8 +96,8 @@ autoreconf
 %{_libdir}/pkgconfig/cwiid.pc
 
 %files -n python-%{name}
-%{py_platsitedir}/%{name}.so
-%{py_platsitedir}/*.egg-info
+%{py2_platsitedir}/%{name}.so
+%{py2_platsitedir}/*.egg-info
 
 
 %changelog
