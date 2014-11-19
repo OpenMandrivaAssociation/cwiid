@@ -61,9 +61,9 @@ library.
 %setup -q
 %patch0 -p1
 %patch1 -p0
+autoreconf
 
 %build
-autoreconf
 %configure \
     --disable-ldconfig \
     --docdir=%{_docdir}/%{name}
