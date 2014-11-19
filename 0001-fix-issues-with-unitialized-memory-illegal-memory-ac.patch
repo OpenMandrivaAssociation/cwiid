@@ -47,18 +47,6 @@ index bbdb220..b82f613 100644
  	int ret = 0;
  
  	/* Compose write packet header */
-diff --git a/libcwiid/connect.c b/libcwiid/connect.c
-index 03d2e72..74baab0 100644
---- a/libcwiid/connect.c
-+++ b/libcwiid/connect.c
-@@ -218,6 +218,7 @@ cwiid_wiimote_t *cwiid_new(int ctl_socket, int int_socket, int flags)
- 	wiimote->ctl_socket = ctl_socket;
- 	wiimote->int_socket = int_socket;
- 	wiimote->flags = flags;
-+	memset(&wiimote->state, 0, sizeof wiimote->state);
- 
- 	/* Global Lock, Store and Increment wiimote_id */
- 	if (pthread_mutex_lock(&global_mutex)) {
 diff --git a/libcwiid/process.c b/libcwiid/process.c
 index 7f36e65..16ecb4a 100644
 --- a/libcwiid/process.c
