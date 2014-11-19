@@ -17,6 +17,7 @@ Source0:	http://www.abstrakraft.org/%{name}-%{version}.tar.xz
 Patch0:		cwiid-0.6.01-fix-linkage.patch
 Patch1:		cwiid-0.6.00-fix-str-fmt.patch
 Patch2:		0001-fix-issues-with-unitialized-memory-illegal-memory-ac.patch
+Patch3:		0001-fix-minor-memleak.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	pkgconfig(bluez)
@@ -63,6 +64,7 @@ library.
 %patch0 -p1
 %patch1 -p0
 %patch2 -p1
+%patch3 -p1
 autoreconf
 
 %build

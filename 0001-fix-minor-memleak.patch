@@ -1,0 +1,48 @@
+From d2cfaf2374d58b883e5c1fb3a2f8015c99c20525 Mon Sep 17 00:00:00 2001
+From: "Per Oyvind Karlsen (proyvind)" <proyvind@moondrake.org>
+Date: Wed, 19 Nov 2014 08:08:37 +0000
+Subject: [PATCH] fix minor memleak
+
+---
+ libcwiid/command.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/libcwiid/command.c b/libcwiid/command.c
+index b82f613..8688e33 100644
+--- a/libcwiid/command.c
++++ b/libcwiid/command.c
+@@ -21,6 +21,7 @@
+ #include <time.h>
+ #include <pthread.h>
+ #include <unistd.h>
++#include <alloca.h>
+ #include "cwiid_internal.h"
+ 
+ int cwiid_command(cwiid_wiimote_t *wiimote, enum cwiid_command command,
+@@ -55,7 +56,7 @@ int cwiid_send_rpt(cwiid_wiimote_t *wiimote, uint8_t flags, uint8_t report,
+ {
+ 	unsigned char *buf;
+ 
+-	if ((buf = malloc(((len*2) * sizeof *buf)+2)) == NULL) {
++	if ((buf = alloca(((len*2) * sizeof *buf)+2)) == NULL) {
+ 		cwiid_err(wiimote, "Memory allocation error (mesg array)");
+ 		return -1;
+ 	}
+@@ -68,14 +69,11 @@ int cwiid_send_rpt(cwiid_wiimote_t *wiimote, uint8_t flags, uint8_t report,
+ 	}
+ 
+ 	if (write(wiimote->ctl_socket, buf, len+2) != (ssize_t)(len+2)) {
+-		free(buf);
+ 		return -1;
+ 	}
+ 	else if (verify_handshake(wiimote)) {
+-		free(buf);
+ 		return -1;
+ 	}
+-
+ 	return 0;
+ }
+ 
+-- 
+2.1.1
+
