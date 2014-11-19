@@ -1,0 +1,124 @@
+From 012bed48bbd90e03441269d079620f2c3f884ef3 Mon Sep 17 00:00:00 2001
+From: "Per Oyvind Karlsen (proyvind)" <proyvind@moondrake.org>
+Date: Wed, 19 Nov 2014 07:54:39 +0000
+Subject: [PATCH] fix issues with unitialized memory & illegal memory access
+
+---
+ libcwiid/command.c | 10 +++++-----
+ libcwiid/connect.c |  1 +
+ libcwiid/process.c |  6 +++---
+ libcwiid/thread.c  |  4 ++--
+ libcwiid/util.c    |  2 +-
+ 5 files changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/libcwiid/command.c b/libcwiid/command.c
+index bbdb220..b82f613 100644
+--- a/libcwiid/command.c
++++ b/libcwiid/command.c
+@@ -55,7 +55,7 @@ int cwiid_send_rpt(cwiid_wiimote_t *wiimote, uint8_t flags, uint8_t report,
+ {
+ 	unsigned char *buf;
+ 
+-	if ((buf = malloc((len*2) * sizeof *buf)) == NULL) {
++	if ((buf = malloc(((len*2) * sizeof *buf)+2)) == NULL) {
+ 		cwiid_err(wiimote, "Memory allocation error (mesg array)");
+ 		return -1;
+ 	}
+@@ -131,8 +131,8 @@ int cwiid_set_rpt_mode(cwiid_wiimote_t *wiimote, uint8_t rpt_mode)
+ int cwiid_read(cwiid_wiimote_t *wiimote, uint8_t flags, uint32_t offset,
+                uint16_t len, void *data)
+ {
+-	unsigned char buf[RPT_READ_REQ_LEN];
+-	struct rw_mesg mesg;
++	unsigned char buf[RPT_READ_REQ_LEN] = {};
++	struct rw_mesg mesg = {};
+ 	unsigned char *cursor;
+ 	int ret = 0;
+ 
+@@ -208,9 +208,9 @@ CODA:
+ int cwiid_write(cwiid_wiimote_t *wiimote, uint8_t flags, uint32_t offset,
+                   uint16_t len, const void *data)
+ {
+-	unsigned char buf[RPT_WRITE_LEN];
++	unsigned char buf[RPT_WRITE_LEN] = {};
+ 	uint16_t sent=0;
+-	struct rw_mesg mesg;
++	struct rw_mesg mesg = {};
+ 	int ret = 0;
+ 
+ 	/* Compose write packet header */
+diff --git a/libcwiid/connect.c b/libcwiid/connect.c
+index 03d2e72..74baab0 100644
+--- a/libcwiid/connect.c
++++ b/libcwiid/connect.c
+@@ -218,6 +218,7 @@ cwiid_wiimote_t *cwiid_new(int ctl_socket, int int_socket, int flags)
+ 	wiimote->ctl_socket = ctl_socket;
+ 	wiimote->int_socket = int_socket;
+ 	wiimote->flags = flags;
++	memset(&wiimote->state, 0, sizeof wiimote->state);
+ 
+ 	/* Global Lock, Store and Increment wiimote_id */
+ 	if (pthread_mutex_lock(&global_mutex)) {
+diff --git a/libcwiid/process.c b/libcwiid/process.c
+index 7f36e65..16ecb4a 100644
+--- a/libcwiid/process.c
++++ b/libcwiid/process.c
+@@ -42,7 +42,7 @@ int process_error(struct wiimote *wiimote, ssize_t len, struct mesg_array *ma)
+ int process_status(struct wiimote *wiimote, const unsigned char *data,
+                    struct mesg_array *ma)
+ {
+-	struct cwiid_status_mesg status_mesg;
++	struct cwiid_status_mesg status_mesg = {};
+ 
+ 	status_mesg.type = CWIID_MESG_STATUS;
+ 	status_mesg.battery = data[5];
+@@ -256,7 +256,7 @@ int process_ext(struct wiimote *wiimote, unsigned char *data,
+ 
+ int process_read(struct wiimote *wiimote, unsigned char *data)
+ {
+-	struct rw_mesg rw_mesg;
++	struct rw_mesg rw_mesg = {};
+ 
+ 	if (wiimote->rw_status != RW_READ) {
+ 		cwiid_err(wiimote, "Received unexpected read report");
+@@ -279,7 +279,7 @@ int process_read(struct wiimote *wiimote, unsigned char *data)
+ 
+ int process_write(struct wiimote *wiimote, unsigned char *data)
+ {
+-	struct rw_mesg rw_mesg;
++	struct rw_mesg rw_mesg = {};
+ 
+ 	if (wiimote->rw_status != RW_WRITE) {
+ 		cwiid_err(wiimote, "Received unexpected write report");
+diff --git a/libcwiid/thread.c b/libcwiid/thread.c
+index 11e17ee..7a72338 100644
+--- a/libcwiid/thread.c
++++ b/libcwiid/thread.c
+@@ -27,9 +27,9 @@
+ #define READ_BUF_LEN 23
+ void *router_thread(struct wiimote *wiimote)
+ {
+-	unsigned char buf[READ_BUF_LEN];
++	unsigned char buf[READ_BUF_LEN] = {};
+ 	ssize_t len;
+-	struct mesg_array ma;
++	struct mesg_array ma = {};
+ 	char err, print_clock_err = 1;
+ 
+ 	while (1) {
+diff --git a/libcwiid/util.c b/libcwiid/util.c
+index 301ecfe..5689402 100644
+--- a/libcwiid/util.c
++++ b/libcwiid/util.c
+@@ -167,7 +167,7 @@ int read_mesg_array(int fd, struct mesg_array *ma)
+ 
+ int cancel_rw(struct wiimote *wiimote)
+ {
+-	struct rw_mesg rw_mesg;
++	struct rw_mesg rw_mesg = {};
+ 
+ 	rw_mesg.type = RW_CANCEL;
+ 
+-- 
+2.1.1
+

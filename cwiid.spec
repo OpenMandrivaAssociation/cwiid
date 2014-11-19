@@ -9,13 +9,14 @@
 Summary:	Wiimote Interface
 Name:		cwiid
 Version:	0.6.01
-Release:	4
+Release:	5
 License:	GPL
 Group:		System/Kernel and hardware
 Url:		http://abstrakraft.org/cwiid/
 Source0:	http://www.abstrakraft.org/%{name}-%{version}.tar.xz
 Patch0:		cwiid-0.6.01-fix-linkage.patch
 Patch1:		cwiid-0.6.00-fix-str-fmt.patch
+Patch2:		0001-fix-issues-with-unitialized-memory-illegal-memory-ac.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	pkgconfig(bluez)
@@ -61,6 +62,7 @@ library.
 %setup -q
 %patch0 -p1
 %patch1 -p0
+%patch2 -p1
 autoreconf
 
 %build
