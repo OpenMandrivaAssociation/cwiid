@@ -14,16 +14,13 @@ License:	GPL
 Group:		System/Kernel and hardware
 Url:		http://abstrakraft.org/cwiid/
 Source0:	http://www.abstrakraft.org/%{name}-%{version}.tar.xz
-#Patch0:		cwiid-0.6.01-fix-linkage.patch
-#Patch1:		cwiid-0.6.00-fix-str-fmt.patch
-#Patch2:		0001-fix-issues-with-unitialized-memory-illegal-memory-ac.patch
-#Patch3:		0001-fix-minor-memleak.patch
+
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	pkgconfig(bluez)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(python2)
-Requires:	python-%{name}
+Requires:	python2-%{name}
 
 %description
 CWiid is a Wiimote Interface.
@@ -51,20 +48,16 @@ Provides:	%{name}-devel = %{version}-%{release}
 This package contains the header files and libraries needed for
 developing programs using the CWiid Wiimote library.
 
-%package -n	python-%{name}
-Summary: 	Python bindings for the %{name} Wiimote library
+%package -n	python2-%{name}
+Summary: 	Python2 bindings for the %{name} Wiimote library
 Group:		System/Libraries
 
-%description -n	python-%{name}
-This package contains Python bindings for the %{name} Wiimote
+%description -n	python2-%{name}
+This package contains Python2 bindings for the %{name} Wiimote
 library.
 
 %prep
 %setup -q
-#patch0 -p1
-#patch1 -p0
-#patch2 -p1
-#patch3 -p1
 autoreconf
 
 %build
@@ -81,6 +74,8 @@ autoreconf
 %files
 %doc README.md
 %docdir %{_docdir}/%{name}
+%{_datadir}/doc/cwiid/Xmodmap
+%{_datadir}/doc/cwiid/wminput.list
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/%{name}/wminput
 %config(noreplace) %{_sysconfdir}/%{name}/wminput/*
@@ -99,6 +94,6 @@ autoreconf
 %{_libdir}/lib%{name}.so
 %{_libdir}/pkgconfig/cwiid.pc
 
-%files -n python-%{name}
+%files -n python2-%{name}
 %{py2_platsitedir}/%{name}.so
 %{py2_platsitedir}/*.egg-info
