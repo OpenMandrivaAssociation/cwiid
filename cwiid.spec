@@ -8,8 +8,8 @@
 
 Summary:	Wiimote Interface
 Name:		cwiid
-Version:	0.6.01
-Release:	6
+Version:	0.6.02
+Release:	1
 License:	GPL
 Group:		System/Kernel and hardware
 Url:		http://abstrakraft.org/cwiid/
