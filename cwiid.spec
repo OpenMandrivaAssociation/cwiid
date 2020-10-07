@@ -73,13 +73,13 @@ autoreconf
 	--disable-ldconfig \
 	--docdir=%{_docdir}/%{name}
 
-%make WARNFLAGS="%{optflags} -Wall"
+%make_build WARNFLAGS="%{optflags} -Wall"
 
 %install
-%makeinstall_std
+%make_install
 
 %files
-%doc README
+%doc README.md
 %docdir %{_docdir}/%{name}
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/%{name}/wminput
