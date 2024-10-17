@@ -12,7 +12,7 @@ Version:	0.6.02
 Release:	2
 License:	GPL
 Group:		System/Kernel and hardware
-Url:		http://abstrakraft.org/cwiid/
+Url:		https://abstrakraft.org/cwiid/
 Source0:	http://www.abstrakraft.org/%{name}-%{version}.tar.xz
 
 BuildRequires:	bison
