@@ -15,6 +15,11 @@ Group:		System/Kernel and hardware
 Url:		https://abstrakraft.org/cwiid/
 Source0:	http://www.abstrakraft.org/%{name}-%{version}.tar.xz
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	pkgconfig(bluez)
